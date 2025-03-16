@@ -1,4 +1,14 @@
 version: '3'
+# Docker Image => Declare The image they are servel service 
+# Docker Container => exc image implement to service
+# Docker Volume => for Database  if down the  service the data will be save 
 
 services:
   web:
+    build: 
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+     - "5000:5000"
+    environment:
+      - PYTHONBUFFERED=1
