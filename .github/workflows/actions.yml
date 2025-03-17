@@ -219,7 +219,7 @@ jobs:
   check-unittesthw:
     runs-on: ubuntu-latest
     if: github.actor != 'github-classroom[bot]'
-    continue-on-error: true
+    continue-on-error: false
     outputs:
       unittests_score: ${{ steps.assign_score.outputs.unittests_score }}
     steps:
@@ -233,34 +233,43 @@ jobs:
 
       - name: Run FizzBuzz Basic Tests
         id: fizzbuzz_basic
-        continue-on-error: true
         run: |
-          FIZZBUZZ_BASIC_RESULT=$(pytest "UnitTestHW/Fizz Buzz/Basic/test_fizzbuzz.py" --maxfail=10 --disable-warnings -q|| true)
+          FIZZBUZZ_BASIC_RESULT=$(pytest "UnitTestHW/Fizz Buzz/Basic/test_fizzbuzz.py" --maxfail=10 --disable-warnings -q || true)
           echo "$FIZZBUZZ_BASIC_RESULT"
-          echo "::set-output name=score::$(if [[ "$FIZZBUZZ_BASIC_RESULT" == *"1 failed, 3 passed"* ]]; then echo 2; else echo 0; fi)" 
+          if echo "$FIZZBUZZ_BASIC_RESULT" | grep -q "4 passed"; then
+            echo "FIZZBUZZ_BASIC_SCORE=2" >> "$GITHUB_ENV"
+          else
+            echo "FIZZBUZZ_BASIC_SCORE=0" >> "$GITHUB_ENV"
+          fi
 
       - name: Run FizzBuzz Class Tests
         id: fizzbuzz_class
-        continue-on-error: true
         run: |
-          FIZZBUZZ_CLASS_RESULT=$(pytest "UnitTestHW/Fizz Buzz/Class/test_fizzbuzz.py" --maxfail=10 --disable-warnings -q|| true)
+          FIZZBUZZ_CLASS_RESULT=$(pytest "UnitTestHW/Fizz Buzz/Class/test_fizzbuzz.py" --maxfail=10 --disable-warnings -q || true)
           echo "$FIZZBUZZ_CLASS_RESULT"
-          echo "::set-output name=score::$(if [[ "$FIZZBUZZ_CLASS_RESULT" == *"2 failed, 5 passed"* ]]; then echo 2; else echo 0; fi)" 
+          if echo "$FIZZBUZZ_CLASS_RESULT" | grep -q "7 passed"; then
+            echo "FIZZBUZZ_CLASS_SCORE=2" >> "$GITHUB_ENV"
+          else
+            echo "FIZZBUZZ_CLASS_SCORE=0" >> "$GITHUB_ENV"
+          fi
 
       - name: Run Regular Expression Matching Tests
         id: regex_matching
-        continue-on-error: true
         run: |
-          REGEXMATCHING_RESULT=$(pytest "UnitTestHW/Regular Expression Matching/test_solution.py" --maxfail=10 --disable-warnings -q|| true)
+          REGEXMATCHING_RESULT=$(pytest "UnitTestHW/Regular Expression Matching/test_solution.py" --maxfail=10 --disable-warnings -q || true)
           echo "$REGEXMATCHING_RESULT"
-          echo "::set-output name=score::$(if [[ "$REGEXMATCHING_RESULT" == *"6 passed, 1 xfailed"* ]]; then echo 4; else echo 0; fi)" 
+          if echo "$REGEXMATCHING_RESULT" | grep -q "7 passed"; then
+            echo "REGEXMATCHING_SCORE=4" >> "$GITHUB_ENV"
+          else
+            echo "REGEXMATCHING_SCORE=0" >> "$GITHUB_ENV"
+          fi
 
       - name: Assign Unit Test score
         id: assign_score
         run: |
-          FIZZBUZZ_BASIC_SCORE="${{ steps.fizzbuzz_basic.outputs.score }}"
-          FIZZBUZZ_CLASS_SCORE="${{ steps.fizzbuzz_class.outputs.score }}"
-          REGEXMATCHING_SCORE="${{ steps.regex_matching.outputs.score }}"
+          FIZZBUZZ_BASIC_SCORE="${{ env.FIZZBUZZ_BASIC_SCORE }}"
+          FIZZBUZZ_CLASS_SCORE="${{ env.FIZZBUZZ_CLASS_SCORE }}"
+          REGEXMATCHING_SCORE="${{ env.REGEXMATCHING_SCORE }}"
           
           TOTAL=$((FIZZBUZZ_BASIC_SCORE + FIZZBUZZ_CLASS_SCORE + REGEXMATCHING_SCORE))
           echo "unittests_score=$TOTAL" >> "$GITHUB_OUTPUT"
