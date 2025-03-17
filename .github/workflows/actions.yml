@@ -372,7 +372,7 @@ jobs:
       - name: Verify frontend service on port 8088
         id: healthcheck_frontend
         run: |
-          for i in {1..10}; do
+          for i in {1..30}; do
             if curl -s http://localhost:8088 > /dev/null; then
               echo "healthy=true" >> $GITHUB_ENV
               echo "::set-output name=healthy::true"
@@ -387,7 +387,7 @@ jobs:
       - name: Verify backend service on port 8000
         id: healthcheck_backend
         run: |
-          for i in {1..10}; do
+          for i in {1..30}; do
             if curl -s http://localhost:8000 > /dev/null; then
               echo "healthy=true" >> $GITHUB_ENV
               echo "::set-output name=healthy::true"
