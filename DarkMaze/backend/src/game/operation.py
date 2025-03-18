@@ -10,45 +10,16 @@ def move_location(game_state, direction):
     # Update position based on direction
     if direction == "up" and y > 0:
         y -= 1
-    elif direction == "down" and y < game_state["map_size"][1] - 1:
-        y += 1
-    elif direction == "left" and x > 0:
+    elif direction == "left":
         x -= 1
-    elif direction == "right" and x < game_state["map_size"][0] - 1:
+    elif direction == "right":
         x += 1
-    elif direction == "up" and y > 0:
+    elif direction == "down" :
         y += 1
-    elif direction == "down" and y < game_state["map_size"][1] - 1:
-        y -= 1
-    elif direction == "left" and x > 0:
-        x += 1
-    elif direction == "right" and x < game_state["map_size"][0] - 1:
-        x -= 1
-    elif direction == "up" and y > 0:
-        x += 1
-    elif direction == "down" and y < game_state["map_size"][1] - 1:
-        x -= 1
-    elif direction == "left" and x > 0:
-        y += 1
-    elif direction == "right" and x < game_state["map_size"][0] - 1:
-        y -= 1
-    elif direction == "up" and y > 0:
-        y += 1
-    elif direction == "down" and y < game_state["map_size"][1] - 1:
-        y -= 1
-    elif direction == "left" and x > 0:
-        x += 1
-    elif direction == "right" and x < game_state["map_size"][0] - 1:
-        x -= 1
-    elif direction == "up" and y > 0:
-        x += 1
-    elif direction == "down" and y < game_state["map_size"][1] - 1:
-        x -= 1
-    elif direction == "left" and x > 0:
-        y += 1
-    elif direction == "right" and x < game_state["map_size"][0] - 1:
-        y -= 1
 
+
+    x = max(0,min(x, game_state["map_size"][0] - 1) )
+    y = max(0, min(y, game_state["map_size"][1] - 1 ))
     new_position = [x, y]
 
     if hit_obstacle(new_position, game_state["current_level_name"]):
