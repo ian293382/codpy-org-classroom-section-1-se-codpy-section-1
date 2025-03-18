@@ -15,3 +15,26 @@
 
 - **Additional Notes:**  
   This assignment is worth 3% of your total grade.
+
+# Score Report 2025/03/19 RECORD
+
+## Summary
+**Total Score**: 100/100
+
+## Detailed List
+
+| Subject | Score |
+|---------|-------|
+| Git | 8 / 8 |
+| Docker | 8 / 8 |
+| Clean Code | 8 / 8 |
+| Tools | 8 / 8 |
+| Unit Tests | 8 / 8 |
+| ----------------- | ----------------- |
+| Commit message | 3 / 3 |
+| ----------------- | ----------------- |
+| DarkMaze Docker | 15 / 15 |
+| DarkMaze Tools | 24 / 24 |
+| DarkMaze Testing | 18 / 18 |
+
+*Job summary generated at run-time*
